@@ -41,25 +41,17 @@ LABEL summary="${SUMMARY}" \
       maintainer="SoftwareCollections.org <sclorg@redhat.com>"
 
 # Install Apache httpd and PHP
-RUN yum clean all && yum remove epel-release && yum install -y epel-release
-
-RUN yum install -y centos-release-scl && \
+RUN yum install -y epel-release && \
     yum-config-manager --enable centos-sclo-rh-testing && \
-    INSTALL_PKGS="rh-php70 rh-php70-php rh-php70-php-bcmath rh-php70-php-cli \
-				rh-php70-php-common rh-php70-php-dba rh-php70-php-embedded rh-php70-php-enchant \
-				rh-php70-php-fpm rh-php70-php-gd rh-php70-php-intl rh-php70-php-ldap rh-php70-php-mbstring \
-				rh-php70-php-mysqlnd rh-php70-php-odbc rh-php70-php-pdo rh-php70-php-pear rh-php70-php-pgsql \
-				rh-php70-php-process rh-php70-php-pspell rh-php70-php-recode rh-php70-php-snmp rh-php70-php-soap \
-				rh-php70-php-xml rh-php70-php-xmlrpc sclo-php70-php-imap sclo-php70-php-mcrypt \
-				sclo-php70-php-pecl-apcu sclo-php70-php-pecl-apcu-bc sclo-php70-php-pecl-memcached \
-				sclo-php70-php-tidy httpd24 httpd24-mod_ssl" && \
+    INSTALL_PKGS="rh-php70 rh-php70-php rh-php70-php-mysqlnd rh-php70-php-pgsql rh-php70-php-bcmath \
+                  rh-php70-php-gd rh-php70-php-intl rh-php70-php-ldap rh-php70-php-mbstring rh-php70-php-pdo \
+                  rh-php70-php-process rh-php70-php-soap rh-php70-php-opcache rh-php70-php-xml \
+                  rh-php70-php-gmp sclo-php70-php-mcrypt rh-php70-php-common\
+				  httpd24-mod_ssl" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS --nogpgcheck && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y
 
-	
-
-	
 ENV PHP_CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/php/ \
     APP_DATA=${APP_ROOT}/src \
     PHP_DEFAULT_INCLUDE_PATH=/opt/rh/rh-php70/root/usr/share/pear \
